@@ -1,0 +1,6 @@
+[submodule "themes/terminal"]
+	path = themes/terminal
+	url = https://github.com/panr/hugo-theme-terminal.git
+[submodule "themes/compose"]
+	path = themes/compose
+	url = https://github.com/onweru/compose/
