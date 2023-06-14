@@ -47,14 +47,14 @@ Concurrent is when you tell your computer to perform multiple tasks and it perfo
 It is much easier to understand the difference with actual examples, so lets go through some and see how synchronous vs parallel vs concurrent behave.
 
 Lets take the following code:
-```C#
+```csharp
    void DoWork(int id)
    {
       Console.WriteLine($"Starting {id}: {DateTime.UtcNow.TimeOfDay}");
       var sum = 0;
       for (var i = 1; i <= 10; i++)
          for (var j = 0; j <= 100_000_000; j++)
-         sum += j / i;
+            sum += j / i;
          
       Console.WriteLine($"Completed {id} - {DateTime.UtcNow.TimeOfDay}");
    }

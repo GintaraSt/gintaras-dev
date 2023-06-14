@@ -1,0 +1,121 @@
+<!-- custom scripts -->
+<script>
+    UpdatePowershellColonStyle();
+    UpdateCSharpTextStyle();
+    UpdateCSharpInterpolatedTextStyle();
+    UpdateNumbersStyle();
+
+    const checkbox = document.querySelector('#mode');
+    const unrelatedElements = document.querySelectorAll('pre');
+    checkbox.addEventListener('change', () => {
+        UpdatePowershellColonStyle();
+        UpdateCSharpTextStyle();
+        UpdateCSharpInterpolatedTextStyle();
+        UpdateNumbersStyle();
+    });
+
+    function UpdatePowershellColonStyle() {
+        const codes = document.querySelectorAll('pre code');
+
+        const codeBlock = document.querySelector('pre');
+        const codeBlockStyles = window.getComputedStyle(codeBlock);
+        const codeBlockBackgroundColor = codeBlockStyles.getPropertyValue('background-color');
+
+        codes.forEach((code) => {
+            if (code.classList.contains('language-powershell')) {
+                const spans = code.querySelectorAll('span');
+                spans.forEach((span) => {
+                    if (span.innerText === ':') {
+                        span.style.backgroundColor = codeBlockBackgroundColor;
+                    }
+                });
+            }
+        });
+    }
+
+    function UpdateNumbersStyle() {
+        var colorMode = localStorage.getItem('colorMode');
+
+        const codes = document.querySelectorAll('pre code');
+        codes.forEach((code) => {
+            const spans = code.querySelectorAll('span > span > span');
+            spans.forEach((span) => {
+                if (IsNumber(span.innerText)) {
+                    span.classList.add('code-number');
+                }
+            });
+        })
+    }
+
+    function UpdateCSharpTextStyle() {
+        var colorMode = localStorage.getItem('colorMode');
+
+        const codes = document.querySelectorAll('pre code');
+        codes.forEach((code) => {
+            if (code.classList.contains('language-csharp')) {
+                const spans = code.querySelectorAll('span > span > span');
+                spans.forEach((span) => {
+                    if (IsSimpleText(span) || IsInterpolatedText(span)) {
+                        if (colorMode === 'dark') {
+                            span.classList.remove('csharp-text');
+                        }
+                        else {
+                            span.classList.add('csharp-text');
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    function UpdateCSharpInterpolatedTextStyle() {
+        const codes = document.querySelectorAll('pre code');
+        codes.forEach((code) => {
+            if (code.classList.contains('language-csharp')) {
+                const spans = code.querySelectorAll('span > span > span');
+                spans.forEach((span) => {
+                    if (IsInterpolatedText(span)) {
+                        let parts = [];
+                        let startIndex = 0;
+                        for (let i = 0; i < span.innerText.length; i++) {
+                            if (span.innerText.charAt(i) == '{') {
+                                i++;
+                                parts.push(span.innerText.substr(startIndex, i - startIndex));
+                                startIndex = i;
+                            }
+                            else if (span.innerText.charAt(i) == '}') {
+                                //i++;
+                                parts.push(`<span class="csharp-interpolated-expression">${span.innerText.substr(startIndex, i - startIndex)}</span>`);
+                                startIndex = i;
+                                if (i >= span.innerText.length - 2) {
+                                    parts.push("}\"");
+                                    break;
+                                }
+                            }
+                        }
+
+                        span.innerHTML = parts.join("");
+                    }
+                });
+            }
+        })
+    }
+
+    function IsSimpleText(span) {
+        return span.innerText.startsWith("\"") && span.innerText.endsWith("\"");
+    }
+
+    function IsInterpolatedText(span) {
+        console.log(span.innerText);
+        return (span.innerText.startsWith("\$\"") ||
+            span.innerText.startsWith("\@\$\"") ||
+            span.innerText.startsWith("\$\@\"")) &&
+            span.innerText.endsWith("\"");
+    }
+
+    function IsNumber(n) {
+        var numPattern = /^[0-9\_\.]+$/;
+        return numPattern.test(n);
+        //return !isNaN(parseFloat(n)) && !isNaN(n - 0)
+    }
+</script>
