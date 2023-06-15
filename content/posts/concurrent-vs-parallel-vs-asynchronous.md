@@ -1,5 +1,5 @@
 +++
-title = "Concurrent vs Parallel vs Asynchronous"
+title = "Concurrent vs Parallel vs Asynchronous processing"
 date = "2023-06-13T20:42:39+03:00"
 author = ""
 authorTwitter = "" #do not include @
@@ -161,9 +161,8 @@ So we will simply take the same code as in parallel execution example and tell o
    var concurrentTask3 = Task.Run(() => DoWork(4));
 ```
 
-{{< tip "warning" >}}
+TODO - MAKE THIS A NOTE
 Note: processor affinity is windows specific API so this test will not work on other operating systems.
-{{< /tip >}}
 
 Running this code gives us the following output:
 
@@ -198,9 +197,8 @@ Hopefully now you'll have a good understanding of what is the difference between
 - Parallel - **processing** multiple tasks at the same time.
 - Concurrent - having multiple tasks **in progress** at the same time. Those tasks are not being worked on at the same time, they are just started one by one and being worked on sequentially small parts at the time, giving the illusion of more things being done at the same time.
 
-{{< tip >}}
+TODO - MAKE THIS A NOTE
 In practice parallel and concurrent computing goes toe to toe. Modern PCs have multiple CPU cores meaning they can perform multiple tasks at the time, and at the same time, your PC always has much more tasks than cores in progress that all may need some attention from the processor.
-{{< /tip >}}
 
 # Asynchronous execution
 
@@ -210,9 +208,9 @@ Tasks I used in examples above are CPU bound. Meaning that CPU has to work to co
 
 As an example saving a file will require our processor to take the data from Cache or RAM and pass it to some permanent storage device (eg. SSD). Once the data is passed to our storage device, our processor needs to wait for the device to write it and then pass next part or confirm successful saving.
 
-{{< tip >}}
+TODO - MAKE THIS A NOTE
 When processor needs to wait for some other part of our or other system to complete doing something before it can continue - the task is asynchronous by nature.
-{{< /tip >}}
+
 
 Any task involving waiting for some other part of our or other system is asynchronous by nature. Writing/reading data to/from disk, sending HTTP requests where we wait for some other server to respond or even getting data from other program running on the same machine - in many cases can be done asynchronously.
 
@@ -375,9 +373,9 @@ As we have all this time while waiting - we can execute some CPU heavy work whil
 
    await Task.WhenAll(asyncTask0, asyncTask1, asyncTask2, asyncTask3);
 ```
-{{< tip >}}
+TODO - MAKE THIS A NOTE
 Note that we are still using only 1 physical thread.
-{{< /tip >}}
+
 
 Running this code gives the following output:
 
@@ -449,12 +447,12 @@ For that, lets simply put the method call in a loop:
 
    void RunInParallel(int id) => parallelTasks.Add(Task.Run(() => SendRequest(id)));
 ```
-{{< tip >}}
+TODO - MAKE THIS A NOTE
 We could achieve similar results by binding our program to single physical thread again, however, that way we would only demonstrate concurrent processing execution times.
-{{< /tip >}}
-{{< tip >}}
+
+TODO - MAKE THIS A NOTE
 We are using `RunInParallel` method to wrap the actual adding of the tasks to the list due to the way lambda expressions work in loops (as it is not triggered immediately, it will not take the value of `i` immediately).
-{{< /tip >}}
+
 
 This gives us the following result (I removed most of it as it’s quite long):
 
