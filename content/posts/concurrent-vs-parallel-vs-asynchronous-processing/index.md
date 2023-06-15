@@ -11,6 +11,8 @@ showFullContent = false
 readingTime = false
 hideComments = false
 color = "" #color from the theme settings
+carousel = true
+pinned = true
 +++
 
 Some time ago I wanted to better understand how asynchronous code works in C#. It seemed that it should’ve been some simple 5 minutes google search, however, quite quickly I got myself into a deep rabbit hole about the differences between parallel, concurrent and asynchronous processing.
@@ -91,14 +93,15 @@ This is a simple example of synchronous execution. Each method will run to compl
 As you can see each run took about 6 seconds to complete on my machine. I also added a Stopwatch to track exact time it took for all 4 methods to complete. As you can see, when running synchronously, all four calls completed in ~25 seconds.
 
 In this case the execution would look something like this:
-{{< figure src="/posts/concurrent-vs-parallel-vs-asynchronous/synchronous-cpu-bound.png" alt="Synchronous execution of CPU bound work" width=800px >}}
+![Resize](/images/concurrent-vs-parallel-vs-asynchronous/synchronous-cpu-bound.png?width=800px)
+
 Here, we only have 1 thread performing all the work.
 
 ### Parallel execution
 
 Now lets update our code to run the method in parallel.
 
-For that we can simply use [`Task.Run`](http://Task.Run) method which takes action we want to perform as an input, schedules it to run on a thread pool and then returns a `Task` to track its progress. We then use these returned tasks to await for all work to complete.
+For that we can simply use `Task.Run` method which takes action we want to perform as an input, schedules it to run on a thread pool and then returns a `Task` to track its progress. We then use these returned tasks to await for all work to complete.
 
 ```csharp
    var parallelTask0 = Task.Run(() => DoWork(1));
@@ -137,7 +140,9 @@ All 4 methods were executed in ~7 seconds. This is because parallel execution ac
 You may notice that even though we used 4 threads instead of 1 - execution time only improved ~3.5 times instead of 4 times you may expect. This is because there is some overhead when scheduling and starting threads. The more work you have the less important this overhead will be.
 
 If we would want to visualize parallel execution with diagram it would look something like this:
-{{< figure src="/posts/concurrent-vs-parallel-vs-asynchronous/parallel-cpu-bound.png" alt="Parallel execution of CPU bound work" width=400px >}}
+
+![Resize](/images/concurrent-vs-parallel-vs-asynchronous/parallel-cpu-bound.png?width=400px)
+
 Each physical thread is executing a task, all working at the same time, allowing all tasks to be executed together, hence, decreasing time we need to wait for tasks to complete.
 
 ### Concurrent execution
@@ -186,7 +191,9 @@ This is because concurrent execution does not actually execute all the methods a
 This is achieved using Context Switching which allows your processor to save the state of the task, switch to another task and then come back to previous one later.
 
 The concurrent execution on a single physical thread would look something like this:
-{{< figure src="/posts/concurrent-vs-parallel-vs-asynchronous/concurrent-cpu-bound.png" alt="Concurrent execution of CPU bound work" width=800px >}}
+
+![Resize](/images/concurrent-vs-parallel-vs-asynchronous/concurrent-cpu-bound.png?width=800px)
+
 Here each number presents id that was passed to the method and each color represents a diferent virtual thread.
 Each task is executed on a different virtual thread, however, these threads are sharing the time of single physical thread. Basically, our physical thread "CPU0" is giving a fraction of it's time to each of the threads, so they could all do some work.
 
@@ -522,13 +529,17 @@ This is because when executing this task in parallel - each thread is actually w
 If you are more of a visual person, this difference can be quite easily explained with some diagrams.
 
 Concurrent execution of multiple tasks would look something like this:
-{{< figure src="/posts/concurrent-vs-parallel-vs-asynchronous/concurrent-async.png" alt="Concurrent execution of asynchronous by nature task" width=1000px >}}
+
+![Resize](/images/concurrent-vs-parallel-vs-asynchronous/concurrent-async.png?width=1000px)
+
 Here, I used yellow-ish to mark part of the task that requires actual CPU work, and blue-ish - the part where CPU just has to wait. I put each concurrent task into a separate line to represent virtual thread that is working on it when it gets CPU time. Above the start of each task I put the full length task for reference of how long the task will take since it was started.
 
 This diagram only shows 1 physical thread with multiple virtual threads, but using multiple physical threads will look basically the same if your virtual/physical threads ration is greater than 1.
 
 The issue may not immediately be apparent, but once you see the asynchronous execution diagram it is much clearer:
-{{< figure src="/posts/concurrent-vs-parallel-vs-asynchronous/asynchronous-async.png" alt="Concurrent execution of asynchronous by nature task" width=1000px >}}
+
+![Resize](/images/concurrent-vs-parallel-vs-asynchronous/asynchronous-async.png?width=1000px)
+
 When executing asynchronously - no thread is actually waiting for the task to be completed. Hence, our program can just perform the synchronous part of the task and continue to execute other things until `await` is called. (In the examples above we were executing some CPU bound work while we were waiting for responses to our requests).
 
 In concurrent execution on the other hand - our physical threads were actually going through each virtual thread we spun for our requests methods and just waiting. It was still better than synchronous execution as time passes even if our CPU is not actively waiting for it to pass, so if we take any individual task - our CPU was waiting less for response on that specific task than it would when executing it synchronously, but still, majority of execution time was spent waiting.
