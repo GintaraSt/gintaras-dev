@@ -1,0 +1,16 @@
+baseURL = '/'
+languageCode = 'en-us'
+title = 'Gintaras Dev'
+enableRobotsTXT = true
+theme = 'compose'
+
+enableGitInfo = true
+
+disableKinds = ["taxonomy", "taxonomyTerm"]
+blogDir = "post"
+[outputs]
+  home = ["HTML", "RSS","JSON"]
+
+[logo]
+  lightMode = "logo.svg"
+  darkMode = "logo.svg"
