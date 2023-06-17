@@ -21,6 +21,7 @@ images = [
    '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-4.png',
    '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-5.png'
 ]
+copyright = false
 +++
 
 Some time ago I wanted to better understand how asynchronous code works in C#. It seemed that it should’ve been some simple 5 minutes google search, however, quite quickly I got myself into a deep rabbit hole about the differences between parallel, concurrent and asynchronous processing.

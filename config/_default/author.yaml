@@ -1,6 +1,6 @@
 name: Gintaras Stalmokas
 avatar: images/profile.png # Avatar image. Default to "images/profile.webp".
-bio: '.NET developer with some DevOps experience and a passion for game development'
+bio: '.NET developer with some Kubernetes and Azure infrastructure experience and a passion for game development'
 # company: Company # HTML markup are supported, such as: <a href="https://example.com" target="_blank" rel="noopener noreferrer">Company</a>.
 location: Vilnius, Lithuania # HTML markup are supported, such as: <a href='https://www.openstreetmap.org/search?query=Earth'>Earth</a>.
 # about: https://razonyang.com # The external about page. The internal about page will be used if not set.
@@ -11,8 +11,5 @@ params: {
 social:
   email: gintaras.stalmokas@outlook.com
   github: https://github.com/GintaraSt
-#  twitter: ""
-#  patreon: ""
-#  paypal: ""
   linkedin: https://www.linkedin.com/in/gintarasstalmokas/
   rss: "" # Remove RSS
