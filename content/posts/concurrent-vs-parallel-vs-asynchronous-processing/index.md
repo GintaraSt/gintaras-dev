@@ -13,6 +13,14 @@ hideComments = false
 color = "" #color from the theme settings
 carousel = true
 pinned = true
+images = [
+   '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-0.png',
+   '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-1.png',
+   '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-2.png',
+   '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-3.png',
+   '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-4.png',
+   '/images/concurrent-vs-parallel-vs-asynchronous/Carousel-5.png'
+]
 +++
 
 Some time ago I wanted to better understand how asynchronous code works in C#. It seemed that it should’ve been some simple 5 minutes google search, however, quite quickly I got myself into a deep rabbit hole about the differences between parallel, concurrent and asynchronous processing.
