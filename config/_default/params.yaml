@@ -19,7 +19,7 @@ brand: Gintaras Dev
 
 palette: green #purple # Default palette. Optional. You'll need to clear the browser cache after modifying this.
 # Available palettes. Default to ALL. Empty array means disable.
-# palettes:
+palettes:
 #  - blue
 #  - blue-gray
 #  - brown
@@ -33,7 +33,7 @@ palette: green #purple # Default palette. Optional. You'll need to clear the bro
 #  - teal
 #  - yellow
 
-# color: dark # light, dark or auto. Default to auto.
+color: dark # light, dark or auto. Default to auto.
 
 # fullWidth: true # Full width.
 # fixedHeader: false # Turn on/off fixed header.
@@ -143,13 +143,13 @@ creativeCommons:
   # nd: true # No derivatives or adaptations of your work are permitted.
   # sa: true # Adaptations must be shared under the same terms.
 
-# utterances:
-  # repo: razonyang/hugo-theme-bootstrap-skeleton # Replace with your repository.
-  #issueTerm: pathname # pathname, url, title, og:title
+utterances:
+  repo: GintaraSt/gintaras-dev # Replace with your repository.
+  # issueTerm: pathname # pathname, url, title, og:title
   # label: comment
   # By default, light and dark mode correspond to github-light and github-dark, respectively.
   # Optional values: github-light, github-dark, preferred-color-scheme, github-dark-orange, icy-dark, dark-blue, photon-dark.
-  #theme:  
+  theme: preferred-color-scheme
 
 #staticman:
   #endpoint: https://yourstaticmaninstance # Required, replace with your own Staticman instance.
@@ -169,11 +169,11 @@ creativeCommons:
   #moderation: false # Same as Staticman's moderation.
 
 # See https://giscus.app
-giscus:
-  repo: "razonyang/hugo-theme-bootstrap-skeleton" # required.
-  repoId: "R_kgDOHJi95g" # required.
-  category: "General" # required.
-  categoryId: "DIC_kwDOHJi95s4CTy6q" # required.
+# giscus:
+#   repo: "GintaraSt/gintaras-dev" # required.
+#   repoId: "653327069" # required.
+#   category: "Gintaras-Dev-Comments" # required.
+#   categoryId: "gintaras-dev-comments" # required.
   # theme: "dark" # Default to auto.
   # mapping: "title" # Default to pathname.
   # inputPosition: "bottom" # Default to top.
@@ -213,8 +213,8 @@ reward:
 #share:
   #addThis:  # AddThis pubid.
 
-#actionsPanel:
-  # disabled: true
+actionsPanel:
+  disabled: true
 
 # Comment or remove this settings to disable font size switcher.
 fontSize:
@@ -240,25 +240,25 @@ pwa:
     #   sizes: 144x144
     #   src: /images/icons/icon-144x144.png
 
-contact:
-  endpoint: https://getform.io/f/56041c81-9e03-4c24-b9c5-61238854d4cd # Backend endpoint, remove this line if you're using Netlify.
-  # file: true # Enable file upload
-  # fileField: image # The name of file field.
-  # reCaptcha:
-    # siteKey: ""
+# contact:
+#   endpoint: https://getform.io/f/56041c81-9e03-4c24-b9c5-61238854d4cd # Backend endpoint, remove this line if you're using Netlify.
+#   # file: true # Enable file upload
+#   # fileField: image # The name of file field.
+#   # reCaptcha:
+#     # siteKey: ""
 
-repo:
-  url: https://github.com/razonyang/hugo-theme-bootstrap-skeleton
-  branch: main
+# repo:
+#   url: https://github.com/razonyang/hugo-theme-bootstrap-skeleton
+#   branch: main
   # subPath: exampleSite
   # dateFormat: 02/01/2006, 15:04:05 PM
 
 topAppBar:
   # See https://hbs.razonyang.com/v1/en/docs/widgets/social-links/.
   social:
-    github: razonyang/hugo-theme-bootstrap
-    patreon: razonyang
-    paypal: razonyang
+    email: gintaras.stalmokas@outlook.com
+    github: https://github.com/GintaraSt
+    linkedin: https://www.linkedin.com/in/gintarasstalmokas/
 
 #docs:
   # nav:
