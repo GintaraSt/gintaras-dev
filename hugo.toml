@@ -14,3 +14,8 @@ blogDir = "post"
 [logo]
   lightMode = "logo.svg"
   darkMode = "logo.svg"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

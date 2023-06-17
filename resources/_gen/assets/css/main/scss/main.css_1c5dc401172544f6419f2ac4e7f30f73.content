@@ -16022,6 +16022,12 @@ table {
   background: var(--hbs-scrollbar-corner-bg);
 }
 
+.note {
+  padding: 1em;
+  background-color: var(--hbs-body-bg);
+  border-left: 4px solid #42a5f5;
+}
+
 /*!purgecss end ignore*/
 .accordion {
   --hbs-accordion-active-color: var(--hbs-primary);
