@@ -43,6 +43,7 @@
       "source",
       "span",
       "strong",
+      "sup",
       "title",
       "ul"
     ],
@@ -358,7 +359,7 @@
     "ids": [
       "advanced-search",
       "asynchronous-execution",
-      "asynchronous-execution-1",
+      "asynchronous-tasks",
       "asynchronous-vs-parallel-and-concurrent",
       "author-input",
       "authors-list",
@@ -368,8 +369,8 @@
       "category-input",
       "concurrent-execution",
       "examples",
-      "examples-1",
       "fontSizeDropdown",
+      "how-does-our-program-know-that-asynchronous-part-completed",
       "how-does-our-program-know-when-asynchronous-part-completed",
       "languages-select",
       "loadingSpinner",
@@ -379,7 +380,9 @@
       "navbarMenus",
       "navbarMenusLabel",
       "parallel-execution",
+      "parallel-vs-concurrent",
       "parallel-vs-concurrent-wrap-up",
+      "physical-threads-vs-virtual-threads",
       "post-comments",
       "post-content-body",
       "posts-toggle",
@@ -398,7 +401,6 @@
       "stats-header",
       "synchronous-execution",
       "synchronous-execution-1",
-      "synchronous-vs-parallel-vs-concurrent",
       "tag-input",
       "tags-list",
       "taxonomies-toggle",
@@ -409,7 +411,8 @@
       "templateResult",
       "templateStat",
       "what-happens-when-we-await-asynchronous-method-immediately-after-calling-it",
-      "wrap-up"
+      "wrap-up",
+      "wrap-up-1"
     ]
   }
 }
