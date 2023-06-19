@@ -15,7 +15,6 @@
       "form",
       "h1",
       "h2",
-      "h3",
       "h5",
       "head",
       "header",
@@ -368,10 +367,8 @@
       "categories-list",
       "category-input",
       "concurrent-execution",
-      "examples",
       "fontSizeDropdown",
       "how-does-our-program-know-that-asynchronous-part-completed",
-      "how-does-our-program-know-when-asynchronous-part-completed",
       "languages-select",
       "loadingSpinner",
       "modeDropdown",
@@ -411,8 +408,7 @@
       "templateResult",
       "templateStat",
       "what-happens-when-we-await-asynchronous-method-immediately-after-calling-it",
-      "wrap-up",
-      "wrap-up-1"
+      "wrap-up"
     ]
   }
 }
