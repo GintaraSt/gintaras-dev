@@ -237,7 +237,7 @@ Hopefully now you'll have a good understanding of what is the difference between
 
 # Asynchronous tasks
 
-I separated asynchronous execution from the rest for a reason. Although it is sometimes mixed with concurrent and parallel - it is actually quite different from them. And the difference comes in the tasks themselves being performed themselves.
+I separated asynchronous execution from the rest for a reason. Although it is sometimes mixed with concurrent and parallel - it is actually quite different from them. And the difference comes from the tasks that are being performed as you can't just take any task and perform it asynchronously.
 
 Tasks I used in examples above are CPU bound. Meaning that CPU has to work to complete them. However, some tasks we want our processor to do may require sending some work to other parts of our system (or other systems entirely), and then waiting to get the results back to continue.
 
@@ -317,7 +317,7 @@ The result of this way of calling our endpoints is as follows:
    Time took: 20158ms, 201581867ticks
 ```
 
-As expected, synchronously calling the test method 4 times will cause each call to be executed one by one and the total execution time to reach ~20 seconds. Everything as expected.
+Synchronously calling the test method 4 times will cause each call to be executed one by one and the total execution time to reach ~20 seconds.
 
 ## Asynchronous execution
 
@@ -373,7 +373,7 @@ Just to prove that this is indeed running asynchronously and not simply in paral
    proc.ProcessorAffinity = (IntPtr)affinityMask;
 ```
 
-As expected, setting this before running the test does not change results in any meaningful way:
+Setting this before running the test does not change results in any meaningful way:
 
 ```
    Starting 0:    18:46:13.400
@@ -574,7 +574,7 @@ In concurrent execution on the other hand - our physical threads were actually g
 
 Asynchronous execution basically just gets rid of the waiting part all together as our CPU can just prepare the task and return to it once there’s something it can actually do.
 
-You may also have noticed that all of this was done on 1 thread in async diagram. This is indeed expected as our program will not spin new threads for each async task. It will just execute the method call up to the point where the actual asynchronous part begins, and then return to execute other code (in our case next method call) until the point where we await for the results of the asynchronous task.
+You may also have noticed that all of this was done on 1 thread in async diagram. Our program will not spin new threads for each async task. It will just execute the method call up to the point where the actual asynchronous part begins, and then return to execute other code (in our case next method call) until the point where we await for the results of the asynchronous task.
 
 Once we sent all the requests and called `await` - our virtual thread will be paused and our physical thread will switch to work on other things until responses to our requests start comming in.
 
