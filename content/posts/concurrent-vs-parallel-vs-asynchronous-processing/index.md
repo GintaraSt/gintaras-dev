@@ -29,6 +29,7 @@ Some time ago I wanted to better understand how asynchronous code works in C#. I
 In this blog post I will try to summarize what I found and **what I think I understood** about the differences between these.
 
 I will cover the following in this post:
+- [Physical threads vs Virtual threads](#physical-threads-vs-virtual-threads)
 - [Parallel vs Concurrent](#parallel-vs-concurrent)
   - [Synchronous execution](#synchronous-execution)
   - [Parallel execution](#parallel-execution)
@@ -44,7 +45,7 @@ I will cover the following in this post:
 
 All examples used in this post can be found in [this github repo](https://github.com/GintaraSt/blogpost-parallel-concurrent-async).
 
-> # Physical threads vs Virtual threads
+# Physical threads vs Virtual threads
 > In this article I often use terms "Physical thread" and "Virtual thread", it is important to understand the difference between these two to understand the differences between differenct execution types.
 > 
 > When you buy a CPU you will usually see Cores and Threads count in it's specifications. Eg. 8 Cores 16 Threads. In this article I will refer to these threads as `physical threads`, even though "Logical processors" would probably be more correct term (at least that's how Windows Task Manager calls them). [As an example, here's specification of Ryzen 7 2700X](https://www.amd.com/en/support/cpu/amd-ryzen-processors/amd-ryzen-7-desktop-processors/amd-ryzen-7-2700x)
@@ -102,17 +103,17 @@ At first, lets simply call our test method 4 times passing different values as i
    DoWork(4);
 ```
 
-This is a simple example of synchronous execution. Each method will run to completion before executing the next one. The results of this code is as follows (truncated seconds fraction a bit for readability):
+This is a simple example of synchronous execution. Each method will run to completion before executing the next one. The results of this code is as follows, seconds fraction was truncated a bit for readability:
 
-```powershell
-   Starting 1: 17:08:50.316
-   Completed 1 - 17:08:56.639
-   Starting 2: 17:08:56.639
-   Completed 2 - 17:09:02.990
-   Starting 3: 17:09:02.990
-   Completed 3 - 17:09:09.308
-   Starting 4: 17:09:09.308
-   Completed 4 - 17:09:15.538
+```
+   Starting 1:    17:08:50.316
+   Completed 1 -  17:08:56.639
+   Starting 2:    17:08:56.639
+   Completed 2 -  17:09:02.990
+   Starting 3:    17:09:02.990
+   Completed 3 -  17:09:09.308
+   Starting 4:    17:09:09.308
+   Completed 4 -  17:09:15.538
 
    Time took: 25222ms, 252225803ticks
 ```
@@ -143,15 +144,15 @@ This basically tells our program to schedule `DoWork` method to run on a thread 
 
 Executing this code provides results similar to these ones:
 
-```powershell
-   Starting 1: 17:09:15.542
-   Starting 2: 17:09:15.542
-   Starting 3: 17:09:15.542
-   Starting 4: 17:09:15.542
-   Completed 4 - 17:09:22.522
-   Completed 2 - 17:09:22.578
-   Completed 3 - 17:09:22.592
-   Completed 1 - 17:09:22.609
+```
+   Starting 1:    17:09:15.542
+   Starting 2:    17:09:15.542
+   Starting 3:    17:09:15.542
+   Starting 4:    17:09:15.542
+   Completed 4 -  17:09:22.522
+   Completed 2 -  17:09:22.578
+   Completed 3 -  17:09:22.592
+   Completed 1 -  17:09:22.609
 
    Time took: 7071ms, 70717788ticks
 ```
@@ -196,15 +197,15 @@ The updated code looks like this:
 
 Running this code gives us the following output:
 
-```powershell
-   Starting 4: 17:09:22.612
-   Starting 1: 17:09:22.643
-   Starting 2: 17:09:22.644
-   Starting 3: 17:09:22.676
-   Completed 4 - 17:09:46.998
-   Completed 1 - 17:09:47.046
-   Completed 2 - 17:09:47.096
-   Completed 3 - 17:09:47.079
+```
+   Starting 4:    17:09:22.612
+   Starting 1:    17:09:22.643
+   Starting 2:    17:09:22.644
+   Starting 3:    17:09:22.676
+   Completed 4 -  17:09:46.998
+   Completed 1 -  17:09:47.046
+   Completed 2 -  17:09:47.096
+   Completed 3 -  17:09:47.079
 
    Time took: 24485ms, 244850125ticks
 ```
@@ -303,15 +304,15 @@ This method can be called synchronously as any other method:
 
 The result of this way of calling our endpoints is as follows:
 
-```powershell
-   Starting 0: 13:02:56.614
-   Completed 0 - 13:03:01.732
-   Starting 1: 13:03:01.733
-   Completed 1 - 13:03:06.749
-   Starting 2: 13:03:06.749
-   Completed 2 - 13:03:11.766
-   Starting 3: 13:03:11.766
-   Completed 3 - 13:03:16.768
+```
+   Starting 0:    13:02:56.614
+   Completed 0 -  13:03:01.732
+   Starting 1:    13:03:01.733
+   Completed 1 -  13:03:06.749
+   Starting 2:    13:03:06.749
+   Completed 2 -  13:03:11.766
+   Starting 3:    13:03:11.766
+   Completed 3 -  13:03:16.768
 
    Time took: 20158ms, 201581867ticks
 ```
@@ -349,15 +350,15 @@ We call this method similarly as if we were executing it synchronously, however,
 
 The result of this will be similar to the following:
 
-```powershell
-   Starting 0: 18:41:40.750
-   Starting 1: 18:41:40.843
-   Starting 2: 18:41:40.844
-   Starting 3: 18:41:40.844
-   Completed 3 - 18:41:45.877
-   Completed 1 - 18:41:45.877
-   Completed 2 - 18:41:45.877
-   Completed 0 - 18:41:45.877
+```
+   Starting 0:    18:41:40.750
+   Starting 1:    18:41:40.843
+   Starting 2:    18:41:40.844
+   Starting 3:    18:41:40.844
+   Completed 3 -  18:41:45.877
+   Completed 1 -  18:41:45.877
+   Completed 2 -  18:41:45.877
+   Completed 0 -  18:41:45.877
 
    Time took: 5142ms, 51422785ticks
 ```
@@ -374,15 +375,15 @@ Just to prove that this is indeed running asynchronously and not simply in paral
 
 As expected, setting this before running the test does not change results in any meaningful way:
 
-```powershell
-   Starting 0: 18:46:13.400
-   Starting 1: 18:46:13.476
-   Starting 2: 18:46:13.476
-   Starting 3: 18:46:13.476
-   Completed 0 - 18:46:18.512
-   Completed 2 - 18:46:18.512
-   Completed 1 - 18:46:18.512
-   Completed 3 - 18:46:18.512
+```
+   Starting 0:    18:46:13.400
+   Starting 1:    18:46:13.476
+   Starting 2:    18:46:13.476
+   Starting 3:    18:46:13.476
+   Completed 0 -  18:46:18.512
+   Completed 2 -  18:46:18.512
+   Completed 1 -  18:46:18.512
+   Completed 3 -  18:46:18.512
 
    Time took: 5117ms, 51177010ticks
 ```
@@ -411,17 +412,17 @@ As we have all this time while waiting - we can execute some CPU heavy work whil
 
 Running this code gives the following output:
 
-```powershell
-   Starting 0: 18:51:07.669
-   Starting 1: 18:51:07.806
-   Starting 2: 18:51:07.807
-   Starting 3: 18:51:07.80
-   Starting 4: 18:51:07.807
-   Completed 2 - 18:51:12.903
-   Completed 1 - 18:51:12.903
-   Completed 3 - 18:51:12.903
-   Completed 0 - 18:51:12.903
-   Completed 4 - 18:51:14.478
+```
+   Starting 0:    18:51:07.669
+   Starting 1:    18:51:07.806
+   Starting 2:    18:51:07.807
+   Starting 3:    18:51:07.80
+   Starting 4:    18:51:07.807
+   Completed 2 -  18:51:12.903
+   Completed 1 -  18:51:12.903
+   Completed 3 -  18:51:12.903
+   Completed 0 -  18:51:12.903
+   Completed 4 -  18:51:14.478
 
    Time took: 6812ms, 68128064ticks
 ```
@@ -448,17 +449,17 @@ The code for both parallel and concurrent execution are basically the same as pr
 
 The above code gives us the following results for parallel execution:
 
-```csharp
-   Starting 4: 19:01:20.304
-   Starting 1: 19:01:20.306
-   Starting 2: 19:01:20.306
-   Starting 0: 19:01:20.306
-   Starting 3: 19:01:20.306
-   Completed 1 - 19:01:25.434
-   Completed 3 - 19:01:25.434
-   Completed 2 - 19:01:25.434
-   Completed 0 - 19:01:25.434
-   Completed 4 - 19:01:26.679
+```
+   Starting 4:    19:01:20.304
+   Starting 1:    19:01:20.306
+   Starting 2:    19:01:20.306
+   Starting 0:    19:01:20.306
+   Starting 3:    19:01:20.306
+   Completed 1 -  19:01:25.434
+   Completed 3 -  19:01:25.434
+   Completed 2 -  19:01:25.434
+   Completed 0 -  19:01:25.434
+   Completed 4 -  19:01:26.679
 
    Time took: 6378ms, 63789771ticks
 ```
@@ -490,14 +491,14 @@ For that, lets simply put the method call in a loop:
 
 This gives us the following result (I removed most of it as it’s quite long):
 
-```powershell
-   Starting 5: 19:15:04.896
-   Starting 2: 19:15:04.896
-   Starting 0: 19:15:04.896
-   Starting 65: 19:15:04.893
-   Starting 3: 19:15:04.896
+```
+   Starting 5:    19:15:04.896
+   Starting 2:    19:15:04.896
+   Starting 0:    19:15:04.896
+   Starting 65:   19:15:04.893
+   Starting 3:    19:15:04.896
    ...
-   Starting 63: 19:15:06.540
+   Starting 63:   19:15:06.540
    Completed 65 - 19:15:11.241
    Completed 23 - 19:15:11.656
    Completed 34 - 19:15:11.656
@@ -528,14 +529,14 @@ Now lets do the same using asynchronous execution:
 
 And the result of this code:
 
-```powershell
-   Starting 0: 19:29:19.384
-   Starting 1: 19:29:19.628
-   Starting 2: 19:29:19.629
-   Starting 3: 19:29:19.629
-   Starting 4: 19:29:19.629
+```
+   Starting 0:    19:29:19.384
+   Starting 1:    19:29:19.628
+   Starting 2:    19:29:19.629
+   Starting 3:    19:29:19.629
+   Starting 4:    19:29:19.629
    ...
-   Starting 65: 19:29:19.634
+   Starting 65:   19:29:19.634
    Completed 47 - 19:29:24.689
    Completed 28 - 19:29:24.689
    Completed 49 - 19:29:24.689
