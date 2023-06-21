@@ -69,9 +69,9 @@ Defining difference between parallel and concurrent is quite easy and you probab
 - Parallel - **processing** multiple tasks at the same time.
 - Concurrent - having multiple tasks **in progress** at the same time.
 
-Basically parallel computing is when you ask your computer to perform multiple tasks at the same time in parallel and it actually is doing all that work at the same time.
+Parallel execution is when you ask your computer to perform multiple tasks at the same time in parallel and it is working on all of those tasks at the same time.
 
-Concurrent is when you tell your computer to perform multiple tasks and it performs them in pieces. Starting one, jumping to another, then returning to the previous one and so on. Basically, your CPU is only working on 1 task at a time and switches between tasks by using what’s called “Context Switching” (more on that later).
+Concurrent execution is when you tell your computer to perform multiple tasks and it performs them in pieces. Starting one, jumping to another, then returning to the previous one and so on. Basically, your CPU is only working on 1 task at a time and switches between tasks by using what’s called “Context Switching” (more on that later).
 
 It is much easier to understand the difference with actual examples, so lets go through some and see how synchronous, parallel and concurrent execution differs.
 
@@ -94,7 +94,7 @@ Each print statement includes id so we would know which of the methods printed i
 
 ## Synchronous execution
 
-At first, lets simply call our test method 4 times passing different values as id argument for each call:
+At first, lets call our test method 4 times passing different values as id argument for each call:
 
 ```csharp
    DoWork(1);
@@ -129,7 +129,7 @@ Here, we only have 1 thread performing all the work.
 
 Now lets update our code to run the method in parallel.
 
-For that we can simply use `Task.Run` method which takes action we want to perform as an input, schedules it to run on a thread pool and then returns a `Task` to track its progress. We then use these returned tasks to await for all work to complete.
+For that we can use `Task.Run` method which takes action we want to perform as an input, schedules it to run on a thread pool and then returns a `Task` to track its progress. We then use these returned tasks to await for all work to complete.
 
 ```csharp
    var parallelTask0 = Task.Run(() => DoWork(1));
@@ -140,7 +140,7 @@ For that we can simply use `Task.Run` method which takes action we want to perfo
    await Task.WhenAll(parallelTask0, parallelTask1, parallelTask2, parallelTask3);
 ```
 
-This basically tells our program to schedule `DoWork` method to run on a thread pool 4 times, and then wait for all executions to complete. If our computer has enough free physical threads (in my case it has) - these methods will be executed in parallel (this is a bit simplified).
+This tells our program to schedule `DoWork` method to run on a thread pool 4 times, and then wait for all executions to complete. If our computer has enough free physical threads (in my case it has) - these methods will be executed in parallel (this is a bit simplified).
 
 Executing this code provides results similar to these ones:
 
@@ -171,11 +171,11 @@ If we would want to visualize parallel execution with diagram it would look some
 Each physical thread is executing a task, all working at the same time, allowing all tasks to be executed together, hence, decreasing time we need to wait for all tasks to complete.
 
 ## Concurrent execution
-Running the same methods concurrently without parallelization is not as simple as it may seem. Concurrency basically allows us to pretend that your processor can do more things at the same time than it actually can.
+Running the same methods concurrently without parallelization is not as simple as it may seem. Concurrency allows us to pretend that our processor can do more things in parallel than it actually can.
 
-In C# using the same code as we used in parallel execution example may cause work to be done concurrently if your system does not have enough free physical threads to give for each of the tasks we want to execute.
+In C#, using the same code as we used in parallel execution example may cause work to be done concurrently if our system does not have enough free physical threads to give for each of the tasks we want to execute.
 
-So we will simply take the same code as in parallel execution example and tell our operating system to only allow 1 physical thread to be used by our program. Basically forcing it to not properly parallelize our tasks. The same effect could be achieved by simply starting more tasks than physical threads supported by our processor.
+We can take the same code as in parallel execution example and tell our operating system to only allow 1 physical thread to be used by our program. This will force it to not properly parallelize our tasks. The same effect could be achieved by simply starting more tasks than physical threads supported by our processor, but limiting number of physical cores from our code will ensure the code would still behave in a similar maner if ran on a system with different number of physical cores.
 The updated code looks like this:
 
 ```csharp
@@ -222,7 +222,7 @@ The concurrent execution on a single physical thread would look something like t
 ![Resize](/images/concurrent-vs-parallel-vs-asynchronous/concurrent-cpu-bound.png?width=800px)
 
 Here each number presents id that was passed to the method and each color represents a diferent virtual thread.
-Each task is executed on a different virtual thread, however, these threads are sharing the time of single physical thread (CPU0). Basically, our physical thread is giving a fraction of it's time to each of the threads, so they could all do some work.
+Each task is executed on a different virtual thread, however, these threads are sharing the time of single physical thread (CPU0). Our physical thread is giving a fraction of it's time to each of the virtual threads, so they could all do some work.
 
 ## Parallel vs Concurrent Wrap up
 
@@ -249,13 +249,13 @@ As an example - saving a file will require our processor to take the data from C
 
 Any task involving waiting for some other part of our, or other system, is asynchronous by nature. Writing/reading data to/from disk, sending HTTP requests where we wait for some other server to respond or even getting data from other program running on the same machine - in many cases can be done asynchronously.
 
-Performing task asynchronously basically means that we are allowing our processor to work on other things while the asynchronous part, being performed by other part of the system, is completed.
+Performing task asynchronously means that we are allowing our processor to work on other things while the asynchronous part, being performed by some other part of the system, is completed.
 
 To better understand this, lets do some comparisons again.
 
 To test asynchronous code we want some task that would be asynchronous by nature.
 
-One of the most obvious choices would be to simply write something to disk. However, for testing purposes, I found it to be a bit too unreliable as disk write speeds can vary drastically and I couldn’t find a good way to achieve stable speeds where multiple runs would consistently complete in similar times.
+One of the most obvious choices would be to write something to disk. However, for testing purposes, I found it to be a bit too unreliable as disk write speeds can vary drastically and I couldn’t find a good way to achieve stable speeds where multiple runs would consistently complete in similar times.
 
 So what I decided to use instead was HTTP requests. For that I created a very simple API using .NET Minimal APIs, that provides a get endpoint “slow-response” that will send empty response 5 seconds after receiving the request.
 
@@ -433,7 +433,7 @@ Notice that our asynchronous tasks still took the same 5 seconds to complete, an
 
 To better convey the advantages of asynchronous execution, lets compare it against executing the non-async version of our method using parallel and concurrent execution.
 
-The code for both parallel and concurrent execution are basically the same as previously. So parallel execution can be performed using the following code:
+The code, for both parallel and concurrent execution, is the same as previously. So parallel execution can be performed using the following code:
 
 ```csharp
    // Parallel
@@ -447,7 +447,7 @@ The code for both parallel and concurrent execution are basically the same as pr
    await Task.WhenAll(parallelTask0, parallelTask1, parallelTask2, parallelTask3);
 ```
 
-The above code gives us the following results for parallel execution:
+This gives us the following results for parallel execution:
 
 ```
    Starting 4:    19:01:20.304
@@ -464,9 +464,9 @@ The above code gives us the following results for parallel execution:
    Time took: 6378ms, 63789771ticks
 ```
 
-The results with parallel execution looks basically identical to asynchronous execution. However, that’s only because I am running this test on a machine with 16 physical threads. To see the difference and the issue with using parallel execution for async tasks we just need to scale the number of tasks we are performing to exceed the number of our physical threads we have (basically, we want to reach enough tasks for them to be executed in parallel and concurrently at the same time).
+The results with parallel execution looks very similar to asynchronous execution. However, that’s only because we are running this test on a machine with 16 physical threads. To see the difference, and the issue with using parallel execution for async tasks, we just need to scale the number of tasks we are performing to exceed the number of physical threads we have (basically, we want to reach enough tasks for them to be executed in parallel and concurrently at the same time).
 
-For that, lets simply put the method call in a loop:
+For that, lets put the method call in a loop:
 
 ```csharp
    var parallelTasks = new List<Task>();
@@ -560,9 +560,9 @@ Concurrent execution of multiple asynchronous by nature tasks would look somethi
 
 ![Resize](/images/concurrent-vs-parallel-vs-asynchronous/concurrent-async.png?width=1000px)
 
-Here, I used yellow-ish to mark parts of the tasks that require actual CPU work, and blue-ish - parts where CPU just has to wait. I put each concurrent task into a separate line to represent virtual thread that is working on it when it gets CPU time. Above the start of each task I put the full length task for reference of how long the task will take since it was started.
+Here, I used orange-ish color to mark parts of the tasks that require actual CPU work, and dark red-ish - parts where CPU just has to wait for something to be done by some other part of our system. I put each concurrent task into a separate line to represent virtual thread that is working on it when it gets CPU time. Above the start of each task I put the full length task for reference of how long the task will take since it was started.
 
-This diagram only shows 1 physical thread with multiple virtual threads, but using multiple physical threads will look basically the same if your virtual/physical threads ratio is greater than 1.
+This diagram only shows 1 physical thread with multiple virtual threads, but using multiple physical threads will look very similar as long as your virtual/physical threads ratio is greater than 1.
 
 The issue may not immediately be apparent, but once you see the asynchronous execution diagram it is much clearer:
 
@@ -572,7 +572,7 @@ When executing asynchronously - no thread is actually waiting for the task to be
 
 In concurrent execution on the other hand - our physical threads were actually going through each virtual thread we spun for our requests methods and just waiting. It was still better than synchronous execution as time passes even if our CPU is not actively waiting for it to pass, so if we take any individual task - our CPU was waiting less for response on that specific task than it would when executing it synchronously, but still, majority of execution time was spent waiting.
 
-Asynchronous execution basically just gets rid of the waiting part all together as our CPU can just prepare the task and return to it once there’s something it can actually do.
+Asynchronous execution just gets rid of the waiting part all together as our CPU can just prepare the task and return to it once there’s something it can actually do.
 
 You may also have noticed that all of this was done on 1 thread in async diagram. Our program will not spin new threads for each async task. It will just execute the method call up to the point where the actual asynchronous part begins, and then return to execute other code (in our case next method call) until the point where we await for the results of the asynchronous task.
 
@@ -582,9 +582,9 @@ Once our program will be notified about the completion of asynchronous part of t
 
 ## How does our program know that asynchronous part completed?
 
-This is actually a quite complicated topic which I won’t dive into as it is quite long and complicated (and this post is getting quite long already). I spent quite a lot of time trying to understand it, but it is quite complicated and more hardware/OS related, so I wouldn't be confident writing about that.
+This question alone requires a dedicated blog post to answer. Thankfully someone else already written it.
 
-“There Is No Thread” article by Stephen Cleary explains it very well, but I do not yet understand it enough to just be able to take any asynchronous task and uderstand how it works: https://blog.stephencleary.com/2013/11/there-is-no-thread.html
+“There Is No Thread” article by Stephen Cleary explains it quite well. I myself do not fully understand it, hence, I will not even try to write a TLDR of it, but I would strongly encourage you to read it: https://blog.stephencleary.com/2013/11/there-is-no-thread.html
 
 ## What happens when we await asynchronous method immediately after calling it?
 
@@ -616,6 +616,6 @@ The benefit of using `async` `await` in such way is that our API can handle much
 # Wrap up
 The differences between parallel and concurrent execution may not be that important as these are quite similar concepts that complement each other, however, asynchronous execution is quite a different concept that should not be confused with the other two.
 
-The main reason I choose this topic to write about was due to how much vague and sometimes contradicting information there is about the differences between these and how they work. Especially about asynchronous execution. The inconsistent terminology and slighly different meaning of word "Thread" in different contexts definatelly doesn't help to understand this.
+The main reason I choose this topic to write about was due to how much vague and sometimes contradicting information there is about the differences between these and how they work. Especially about asynchronous execution. The inconsistent terminology and slighly different meaning of the word "Thread" in different contexts definatelly doesn't help to understand this.
 
 I hope this helped to clear up some confusion between these three.
