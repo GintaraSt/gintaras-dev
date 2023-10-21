@@ -43,7 +43,7 @@ I will cover the following in this post:
   - [What happens when we await asynchronous method immediately after calling it?](#what-happens-when-we-await-asynchronous-method-immediately-after-calling-it)
 - [Wrap up](#wrap-up)
 
-All examples used in this post can be found in [this github repo](https://github.com/GintaraSt/blogpost-parallel-concurrent-async).
+All examples used in this post can be found in [this github repo](https://github.com/GintarasDev/blogpost-parallel-concurrent-async).
 
 # Physical threads vs Virtual threads
 > In this article I often use terms "Physical thread" and "Virtual thread", it is important to understand the difference between these two to understand the differences between differenct execution types.

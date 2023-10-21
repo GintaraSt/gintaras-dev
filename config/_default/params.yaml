@@ -144,7 +144,7 @@ creativeCommons:
   # sa: true # Adaptations must be shared under the same terms.
 
 utterances:
-  repo: GintaraSt/gintaras-dev # Replace with your repository.
+  repo: GintarasDev/gintaras-dev # Replace with your repository.
   # issueTerm: pathname # pathname, url, title, og:title
   # label: comment
   # By default, light and dark mode correspond to github-light and github-dark, respectively.
@@ -170,7 +170,7 @@ utterances:
 
 # See https://giscus.app
 # giscus:
-#   repo: "GintaraSt/gintaras-dev" # required.
+#   repo: "GintarasDev/gintaras-dev" # required.
 #   repoId: "653327069" # required.
 #   category: "Gintaras-Dev-Comments" # required.
 #   categoryId: "gintaras-dev-comments" # required.
@@ -257,7 +257,7 @@ topAppBar:
   # See https://hbs.razonyang.com/v1/en/docs/widgets/social-links/.
   social:
     email: gintaras.stalmokas@outlook.com
-    github: https://github.com/GintaraSt
+    github: https://github.com/GintarasDev
     linkedin: https://www.linkedin.com/in/gintarasstalmokas/
 
 #docs:
