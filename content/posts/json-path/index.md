@@ -14,6 +14,7 @@ color = "" #color from the theme settings
 carousel = true
 pinned = true
 images = [
+   '/images/json-path/thumbnail.png',
    '/images/json-path/Carousel-0.png',
    '/images/json-path/Carousel-1.png',
    '/images/json-path/Carousel-2.png',
@@ -25,6 +26,17 @@ copyright = false
 +++
 
 Recently I've been working on a small Newtonsoft's Json.NET package decorator 'JsonPathConvert'. This decorator is designed to help solving issue where you might want to deserialize json from some deeply nested json into a simple flat POCO without replicating the entire nested structure.
+
+The tool I created might not yet be production ready, however, I think the concept is quite interesting to share, and continue developing.
+
+I will cover the following in this post:
+- [The issue I am trying to address](#the-issue-i-am-trying-to-address)
+- [JsonPath Attribute and JsonPathConvert](#jsonpath-attribute-and-jsonpathconvert)
+  - [What does it do](#what-does-it-do)
+  - [How does it work](#how-does-it-work)
+  - [Limitations and plans](#limitations-and-plans)
+  - [Performance (not great)](#performance-not-great)
+- [Wrap up](#wrap-up)
 
 # The issue I am trying to address
 

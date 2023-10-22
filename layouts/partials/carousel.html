@@ -51,12 +51,12 @@
 {{- $featured := false }}
 {{- $lazyLoading := .lazyLoading }}
 
-{{ $extraSmallImageURL = index .page.Params.images 5 | absURL }}
-{{ $smallImageURL = index .page.Params.images 4 | absURL }}
-{{ $mediumImageURL = index .page.Params.images 3 | absURL }}
-{{ $largeImageURL = index .page.Params.images 2 | absURL }}
-{{ $xlargeImageURL = index .page.Params.images 1 | absURL }}
-{{ $xxlargeImageURL = index .page.Params.images 0 | absURL }}
+{{ $extraSmallImageURL = index .page.Params.images 6 | absURL }}
+{{ $smallImageURL = index .page.Params.images 5 | absURL }}
+{{ $mediumImageURL = index .page.Params.images 4 | absURL }}
+{{ $largeImageURL = index .page.Params.images 3 | absURL }}
+{{ $xlargeImageURL = index .page.Params.images 2 | absURL }}
+{{ $xxlargeImageURL = index .page.Params.images 1 | absURL }}
 
 <picture>
     <source srcset="{{ $extraSmallImageURL }}" media="(max-width: 575px)">
